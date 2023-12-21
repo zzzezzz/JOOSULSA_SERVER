@@ -1,0 +1,2 @@
+# JOOSULSA_SERVER
+주술사 서버
