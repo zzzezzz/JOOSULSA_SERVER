@@ -1,6 +1,7 @@
 package com.joosulsa.entity;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -28,13 +30,17 @@ public class Tb_Attendance {
 	private Long attNum;
 
 	@Column(name = "attended_at", nullable = false)
-	private LocalDateTime attendedAt;
+	private String attendedAt;
 
 	@Column(name = "att_point", nullable = false)
 	private Integer attPoint;
 
-	@ManyToOne
-	@JoinColumn(referencedColumnName = "user_id")
-	private Tb_User userId;
+	@OneToMany(mappedBy = "attNum")
+    private List<Tb_Point_Earn> earnNum;
+    
+    @Override
+	public String toString() {
+		return "Tb_Attendance";
+	}
 
 }

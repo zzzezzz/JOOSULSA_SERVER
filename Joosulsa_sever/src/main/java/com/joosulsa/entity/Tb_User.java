@@ -41,17 +41,10 @@ public class Tb_User {
     private String joinedAt;
     
     @OneToMany(mappedBy = "userId")
-    private List<Tb_Quiz> quizNum;
+    private List<Tb_Point_History> useNum;
     
     @OneToMany(mappedBy = "userId")
-    private List<Tb_Recycling> recycleNum;
-    
-    @OneToMany(mappedBy = "userId")
-    private List<Tb_Attendance> attNum;
-    
-    @OneToMany(mappedBy = "userId")
-    private List<Tb_Point_History> histNum;
-    
+    private List<Tb_Point_Earn> earnNum;
     
     @Override
     public String toString() {

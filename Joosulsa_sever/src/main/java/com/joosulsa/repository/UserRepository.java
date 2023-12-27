@@ -12,6 +12,8 @@ import com.joosulsa.entity.Tb_User;
 public interface UserRepository extends JpaRepository<Tb_User, String> {
 
 	public Tb_User findByUserIdAndUserPw(String id, String pw);
+
+	public Tb_User findByUserId(String userId);
 	
 	
 	

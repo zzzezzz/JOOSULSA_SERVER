@@ -1,10 +1,13 @@
 package com.joosulsa.controller;
 
 import javax.servlet.http.HttpSession;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +22,7 @@ import com.joosulsa.mapper.UserMapper;
 import com.joosulsa.repository.UserRepository;
 
 @RestController
+@Transactional
 public class UserController {
 
 //	private PasswordEncoder passwordEncoder;
@@ -52,6 +56,20 @@ public class UserController {
 
 		return "success";
 	}
+	
+	@PostMapping("/check/{userId}")
+    public ResponseEntity<String> checkUserIdAvailability(@PathVariable String userId) {
+        Tb_User existingUser = userRepo.findByUserId(userId);
+
+        if (existingUser != null) {
+            // 이미 존재하는 아이디인 경우
+            return new ResponseEntity<>("DUPLICATED", HttpStatus.OK);
+        } else {
+            // 존재하지 않는 아이디인 경우
+            return new ResponseEntity<>("AVAILABLE", HttpStatus.OK);
+        }
+    }
+	
 
 	@PostMapping("/login")
 	public String login(@RequestParam String userId, @RequestParam String userPw) {
