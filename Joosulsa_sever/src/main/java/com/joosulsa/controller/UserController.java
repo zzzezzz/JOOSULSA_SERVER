@@ -73,8 +73,11 @@ public class UserController {
 
 	@PostMapping("/login")
 	public String login(@RequestParam String userId, @RequestParam String userPw) {
+		System.out.println(userId + userPw);
 		Tb_User loginCheck = userRepo.findByUserIdAndUserPw(userId, userPw);
 		
+		System.out.println(loginCheck.getUserPw());
+
 		if(loginCheck != null) {
 			ObjectMapper objectMapper = new ObjectMapper();
 			try {
@@ -86,9 +89,7 @@ public class UserController {
 			}
 		}else {
 			return "로그인 실패";
-		}
-		
-		
+		}	
 		
 		
 	}

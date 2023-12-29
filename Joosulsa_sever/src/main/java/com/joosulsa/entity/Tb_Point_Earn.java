@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -35,10 +37,12 @@ public class Tb_Point_Earn {
 
     @ManyToOne
     @JoinColumn(referencedColumnName = "user_id")
+    @JsonBackReference
     private Tb_User userId;
     
     @ManyToOne
     @JoinColumn(referencedColumnName = "quiz_num")
+    @JsonBackReference
     private Tb_Quiz quizNum;
     
     @ManyToOne
