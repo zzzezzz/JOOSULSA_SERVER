@@ -1,9 +1,12 @@
 package com.joosulsa.controller;
 
+import java.util.Optional;
+
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,10 +41,12 @@ public class UserController {
 //		this.passwordEncoder = passwordEncoder;
 //	}
 
+	// 회원가입
 	@PostMapping("/register")
 	public String register(String name, String id, String pw, String nick, String address, String jointime) {
 		System.out.println("aaaaa");
 		System.out.println("user : " + name + id + pw + nick + address);
+
 		Tb_User result = new Tb_User();
 		result.setUserId(id);
 		result.setJoinedAt(jointime);
@@ -50,35 +55,34 @@ public class UserController {
 		result.setUserNick(nick);
 		// 비밀번호 암호화
 		result.setUserPw(pw);
+
 		userRepo.save(result);
 
 		System.out.println("result=" + result);
 
 		return "success";
 	}
-	
+
+	// 회원가입 아이디 중복체크
 	@PostMapping("/check/{userId}")
-    public ResponseEntity<String> checkUserIdAvailability(@PathVariable String userId) {
-        Tb_User existingUser = userRepo.findByUserId(userId);
+	public ResponseEntity<String> checkUserIdAvailability(@PathVariable String userId) {
+		Tb_User existingUser = userRepo.findByUserId(userId);
 
-        if (existingUser != null) {
-            // 이미 존재하는 아이디인 경우
-            return new ResponseEntity<>("DUPLICATED", HttpStatus.OK);
-        } else {
-            // 존재하지 않는 아이디인 경우
-            return new ResponseEntity<>("AVAILABLE", HttpStatus.OK);
-        }
-    }
-	
+		if (existingUser != null) {
+			// 이미 존재하는 아이디인 경우
+			return new ResponseEntity<>("DUPLICATED", HttpStatus.OK);
+		} else {
+			// 존재하지 않는 아이디인 경우
+			return new ResponseEntity<>("AVAILABLE", HttpStatus.OK);
+		}
+	}
 
+	// 로그인
 	@PostMapping("/login")
 	public String login(@RequestParam String userId, @RequestParam String userPw) {
-		System.out.println(userId + userPw);
 		Tb_User loginCheck = userRepo.findByUserIdAndUserPw(userId, userPw);
-		
-		System.out.println(loginCheck.getUserPw());
 
-		if(loginCheck != null) {
+		if (loginCheck != null) {
 			ObjectMapper objectMapper = new ObjectMapper();
 			try {
 				String jsonCheck = objectMapper.writeValueAsString(loginCheck);
@@ -87,11 +91,18 @@ public class UserController {
 				e.printStackTrace();
 				return "JSON 변환 실패: " + e.getMessage();
 			}
-		}else {
+		} else {
 			return "로그인 실패";
-		}	
-		
-		
+		}
+	}
+
+	@PostMapping("/myChange")
+	public Tb_User myChange(String id, String newPw, String newNick, String newAddr) {
+		System.out.println("이거 뭐냐 시발아");
+		Tb_User userChange = userRepo.findByUserId(id);
+		int result = userRepo.myChange(id, newPw, newNick, newAddr);
+
+		return userChange;
 	}
 
 }
