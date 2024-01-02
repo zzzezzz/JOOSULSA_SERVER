@@ -38,6 +38,12 @@ public class Tb_User {
 
     @Column(name = "user_nick", length = 30, nullable = false)
     private String userNick;
+    
+    @Column(name = "today_att")
+    private boolean attendance = false;
+    
+    @Column(name = "quiz_att")
+    private boolean quizParticipation = false;
 
     @Column(name = "joined_at", nullable = false)
     private String joinedAt;
