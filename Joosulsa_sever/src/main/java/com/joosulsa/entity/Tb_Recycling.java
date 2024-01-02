@@ -52,6 +52,9 @@ public class Tb_Recycling {
 
     @Column(name = "recycle_img", length = 1000)
     private String recycleImg;
+    
+    @Column(name = "recycle_title", length = 100)
+    private String recycleTitle;
 
     @Column(name = "recycle_point")
     private Integer recyclePoint;
