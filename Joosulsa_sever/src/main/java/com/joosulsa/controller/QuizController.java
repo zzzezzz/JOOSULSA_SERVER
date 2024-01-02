@@ -66,7 +66,7 @@ public class QuizController {
 				pointEarn.setEarnedAt(earnTime);
 				pointEarn.setUserId(user);
 				pointEarn.setQuizNum(quiz);
-
+				
 				pointEarnRepo.save(pointEarn);
 
 				return "Point added successfully!";

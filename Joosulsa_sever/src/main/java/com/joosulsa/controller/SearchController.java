@@ -36,7 +36,7 @@ public class SearchController {
 				return "JSON 변환 실패" + e.getMessage();
 			}
 		}else {
-			return "실패";
+			return null;
 		}
 	}
 

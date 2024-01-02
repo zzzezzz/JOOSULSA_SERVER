@@ -43,7 +43,7 @@ public class UserController {
 
 	// 회원가입
 	@PostMapping("/register")
-	public String register(String name, String id, String pw, String nick, String address, String jointime) {
+	public String register(String nick, String address, String jointime, String pw, String name, String id) {
 		System.out.println("aaaaa");
 		System.out.println("user : " + name + id + pw + nick + address);
 
@@ -53,6 +53,8 @@ public class UserController {
 		result.setUserAddr(address);
 		result.setUserName(name);
 		result.setUserNick(nick);
+		result.setAttendance(false);
+		result.setQuizParticipation(false);
 		// 비밀번호 암호화
 		result.setUserPw(pw);
 
@@ -98,10 +100,14 @@ public class UserController {
 
 	@PostMapping("/myChange")
 	public Tb_User myChange(String id, String newPw, String newNick, String newAddr) {
+
+		System.out.println("이거 뭐냐");
+
 		Tb_User userChange = userRepo.findByUserId(id);
 		int result = userRepo.myChange(id, newPw, newNick, newAddr);
 
 		return userChange;
 	}
+	
 
 }
