@@ -34,6 +34,12 @@ public class Tb_Recycling {
 
     @Column(name = "sepa_method", columnDefinition = "TEXT")
     private String sepaMethod;
+    
+    @Column(name = "sepa_caution", length = 500)
+    private String sepaCaution;
+    
+    @Column(name = "sepa_img", length = 1000)
+    private String sepaImg;
 
     @Column(name = "sepa_video", length = 1000)
     private String sepaVideo;
@@ -44,11 +50,11 @@ public class Tb_Recycling {
     @Column(name = "recycle_video", length = 1000)
     private String recycleVideo;
 
-    @Column(name = "recycle_method", columnDefinition = "TEXT")
-    private String recycleMethod;
-
-    @Column(name = "recycled_at")
-    private String recycledAt;
+    @Column(name = "recycle_img", length = 1000)
+    private String recycleImg;
+    
+    @Column(name = "recycle_title", length = 100)
+    private String recycleTitle;
 
     @Column(name = "recycle_point")
     private Integer recyclePoint;

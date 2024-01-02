@@ -23,6 +23,8 @@ public interface UserRepository extends JpaRepository<Tb_User, String> {
 	@Query("UPDATE com.joosulsa.entity.Tb_User m SET m.userPw = :newPw, m.userNick = :newNick, m.userAddr = :newAddr WHERE m.userId = :id")
 	 int myChange(@Param("id") String id, @Param("newPw") String newPw,
 			 @Param("newNick") String newNick, @Param("newAddr") String newAddr);
+
+	public void markAttendance(String userId);
 	
 }
 
