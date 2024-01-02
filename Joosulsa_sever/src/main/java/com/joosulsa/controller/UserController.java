@@ -98,7 +98,6 @@ public class UserController {
 
 	@PostMapping("/myChange")
 	public Tb_User myChange(String id, String newPw, String newNick, String newAddr) {
-		System.out.println("이거 뭐냐 시발아");
 		Tb_User userChange = userRepo.findByUserId(id);
 		int result = userRepo.myChange(id, newPw, newNick, newAddr);
 
