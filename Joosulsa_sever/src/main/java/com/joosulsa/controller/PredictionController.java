@@ -11,6 +11,6 @@ public class PredictionController {
 
 	@PostMapping("/predict")
 	public void receivePredictionResult(@RequestBody PredictionResult predictionResult) {
-		
+		 
 	}
 }

@@ -12,6 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -47,10 +48,12 @@ public class Tb_Point_Earn {
     
     @ManyToOne
     @JoinColumn(referencedColumnName = "recycle_num")
+    @JsonManagedReference
     private Tb_Recycling recycleNum;
     
     @ManyToOne
     @JoinColumn(referencedColumnName = "att_num")
+    @JsonManagedReference
     private Tb_Attendance attNum;
 	
 	
