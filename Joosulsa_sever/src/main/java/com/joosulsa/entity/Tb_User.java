@@ -57,6 +57,8 @@ public class Tb_User {
     @OneToMany(mappedBy = "userId")
     @JsonManagedReference
     private List<Tb_Point_Earn> earnNum;
+
+	public boolean getAttendance;
     
     @Override
     public String toString() {

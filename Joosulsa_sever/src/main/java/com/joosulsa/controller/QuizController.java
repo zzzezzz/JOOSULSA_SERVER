@@ -60,6 +60,10 @@ public class QuizController {
 			Tb_Quiz quiz = quizRepo.findByQuizNum(quizNum);
 
 			if (user != null && quiz != null) {
+				
+				user.setQuizParticipation(true);
+	            userRepo.save(user);
+				
 				// 포인트 기록 생성
 				Tb_Point_Earn pointEarn = new Tb_Point_Earn();
 				pointEarn.setEarnPoint(quiz.getQuizPoint());

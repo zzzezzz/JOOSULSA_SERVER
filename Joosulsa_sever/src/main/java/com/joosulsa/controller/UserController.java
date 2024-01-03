@@ -109,5 +109,24 @@ public class UserController {
 		return userChange;
 	}
 	
+	@PostMapping("/dataCheck")
+	public String dataCheck(String userId) {
+		Tb_User dataCheck = userRepo.findByUserId(userId);
+		
+		if (dataCheck != null) {
+			ObjectMapper objectMapper = new ObjectMapper();
+			try {
+				String jsonCheck = objectMapper.writeValueAsString(dataCheck);
+				return jsonCheck;
+			} catch (JsonProcessingException e) {
+				e.printStackTrace();
+				return "JSON 변환 실패: " + e.getMessage();
+			}
+		} else {
+			return "로그인 실패";
+		}
+		
+	}
+	
 
 }
