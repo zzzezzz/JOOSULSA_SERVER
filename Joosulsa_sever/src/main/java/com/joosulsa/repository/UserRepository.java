@@ -26,6 +26,9 @@ public interface UserRepository extends JpaRepository<Tb_User, String> {
 
 //	public void markAttendance(String userId);
 	
+	@Query("SELECT SUM(pe.earnPoint) FROM Tb_Point_Earn pe WHERE pe.userId.userId = :userId")
+    int calculateTotalPoints(@Param("userId") String userId);
+	
 }
 
 
