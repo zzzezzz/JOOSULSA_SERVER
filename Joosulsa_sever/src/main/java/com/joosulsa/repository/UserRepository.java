@@ -24,7 +24,7 @@ public interface UserRepository extends JpaRepository<Tb_User, String> {
 	 int myChange(@Param("id") String id, @Param("newPw") String newPw,
 			 @Param("newNick") String newNick, @Param("newAddr") String newAddr);
 
-	// public void markAttendance(String userId);
+//	public void markAttendance(String userId);
 	
 }
 
