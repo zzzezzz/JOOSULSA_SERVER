@@ -11,6 +11,7 @@ import com.joosulsa.entity.Tb_Point_Earn;
 import com.joosulsa.entity.Tb_Quiz;
 import com.joosulsa.entity.Tb_User;
 import com.joosulsa.repository.CheckRepository;
+import com.joosulsa.repository.PointEarnRepository;
 import com.joosulsa.repository.UserRepository;
 
 @RestController
@@ -22,6 +23,9 @@ public class CheckController {
 	
 	@Autowired
 	private CheckRepository checkRepo;
+	
+	@Autowired
+	 private PointEarnRepository pointEarnRepo;
 	
 	@PostMapping("/checkPoint")
 	public String checkPointRequest(String autoId, String monthlyAtt) {
