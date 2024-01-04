@@ -53,7 +53,7 @@ public class Tb_Point_Earn {
     
     @ManyToOne
     @JoinColumn(referencedColumnName = "att_num")
-    @JsonManagedReference
+    @JsonBackReference
     private Tb_Attendance attNum;
 	
 	
