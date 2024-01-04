@@ -1,5 +1,7 @@
 package com.joosulsa.controller;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
@@ -98,6 +100,7 @@ public class UserController {
 		}
 	}
 
+	// 회원 정보 변경
 	@PostMapping("/myChange")
 	public Tb_User myChange(String id, String newPw, String newNick, String newAddr) {
 
@@ -108,11 +111,12 @@ public class UserController {
 
 		return userChange;
 	}
-	
+
+	// 자동로그인 유저 출석, 퀴즈 여부 불러오기
 	@PostMapping("/dataCheck")
 	public String dataCheck(String userId) {
 		Tb_User dataCheck = userRepo.findByUserId(userId);
-		
+
 		if (dataCheck != null) {
 			ObjectMapper objectMapper = new ObjectMapper();
 			try {
@@ -125,8 +129,44 @@ public class UserController {
 		} else {
 			return "로그인 실패";
 		}
-		
+
 	}
-	
+
+	// 출석체크 페이지 출석 현황 뿌리기
+	@PostMapping("/checkOutput")
+	public String checkOutput(String userId) {
+
+		Tb_User checkOutput = userRepo.findByUserId(userId);
+
+		if (checkOutput != null) {
+			ObjectMapper objectMapper = new ObjectMapper();
+			try {
+				int totalPoints = userRepo.calculateTotalPoints(checkOutput.getUserId());
+				String infoUserId = checkOutput.getUserId();
+				String infoUserNick = checkOutput.getUserNick();
+
+				// 응답 데이터 설정
+				Map<String, Object> responseData = new HashMap<>();
+				responseData.put("message", "Point added successfully!");
+				responseData.put("totalPoints", totalPoints);
+				responseData.put("userNick", infoUserNick);
+				responseData.put("userId", infoUserId);
+
+				// JSON 형태로 변환
+				String jsonResponse = objectMapper.writeValueAsString(responseData);
+
+				// JSON 형태의 응답 전송
+				return jsonResponse;
+			} catch (JsonProcessingException e) {
+				e.printStackTrace();
+				return "JSON 변환 실패: " + e.getMessage();
+			}
+		} else {
+			return "로그인 실패";
+		}
+
+	}
+
+
 
 }

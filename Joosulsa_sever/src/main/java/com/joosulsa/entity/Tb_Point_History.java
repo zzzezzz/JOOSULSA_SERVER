@@ -13,6 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -34,6 +36,7 @@ public class Tb_Point_History {
    
     @ManyToOne
     @JoinColumn(name="prod_num", nullable = false)
+    @JsonBackReference
     private Tb_Product prodNum;
 
     @Column(name = "used_at", nullable = false)
@@ -41,6 +44,7 @@ public class Tb_Point_History {
 
     @ManyToOne
     @JoinColumn(referencedColumnName = "user_id")
+    @JsonBackReference
     private Tb_User userId;
 	
 }

@@ -36,9 +36,9 @@ public class JoosulsaScheduler {
  		for (int i = 0; i < users.size(); i++) {
  			Tb_User user = users.get(i);
              // 출석 체크 로직 예시: 특정 조건을 만족하면 출석으로 표시
-             if (여기에 조건을 작성해줘) {
-                 userRepo.markAttendance(user.getUserId());
-             }
+//             if (여기에 조건을 작성해줘) {
+//                 userRepo.markAttendance(user.getUserId());
+//             }
          }
  	}
 

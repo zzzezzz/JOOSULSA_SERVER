@@ -13,6 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -42,6 +44,7 @@ public class Tb_Product {
 	private String prodImg;
 	
 	@OneToMany(mappedBy = "prodNum")
+	@JsonBackReference
 	private List<Tb_Point_History> histNum;
 	
 	@Override
