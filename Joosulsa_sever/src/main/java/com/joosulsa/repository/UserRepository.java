@@ -24,7 +24,11 @@ public interface UserRepository extends JpaRepository<Tb_User, String> {
 	 int myChange(@Param("id") String id, @Param("newPw") String newPw,
 			 @Param("newNick") String newNick, @Param("newAddr") String newAddr);
 
-	// public void markAttendance(String userId);
+
+//	public void markAttendance(String userId);
+	
+	@Query("SELECT SUM(pe.earnPoint) FROM Tb_Point_Earn pe WHERE pe.userId.userId = :userId")
+    int calculateTotalPoints(@Param("userId") String userId);
 	
 }
 

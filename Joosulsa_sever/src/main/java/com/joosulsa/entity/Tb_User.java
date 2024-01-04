@@ -44,6 +44,9 @@ public class Tb_User {
     
     @Column(name = "quiz_att")
     private boolean quizParticipation = false;
+    
+    @Column(name = "monthly_attendance")
+    private int monthlyAttendance = 0;
 
     @Column(name = "joined_at", nullable = false)
     private String joinedAt;
@@ -54,6 +57,8 @@ public class Tb_User {
     @OneToMany(mappedBy = "userId")
     @JsonManagedReference
     private List<Tb_Point_Earn> earnNum;
+
+	public boolean getAttendance;
     
     @Override
     public String toString() {

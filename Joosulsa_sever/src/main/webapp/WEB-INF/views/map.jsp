@@ -33,19 +33,19 @@
 		var container = document.getElementById('map');
 	    var options = {
 	        center: new kakao.maps.LatLng(37.5665, 126.9780),  // 초기 중심 좌표 설정
-	        level: 1
+	        level: 3
 	    };
 	    var map = new kakao.maps.Map(container, options);
 	
 	    // 여러 개의 마커 정보 배열
 	    var markers = [
 	        {
-	            position: new kakao.maps.LatLng(37.5665, 126.9780),  // 첫 번째 마커 위치
+	            position: new kakao.maps.LatLng(35.14049, 126.916429),  // 첫 번째 마커 위치
 	            content: '<div class="overlay" style="padding:8px 18px 8px 18px;"><p>송암동</p><p>513254540pt</p></div>',  // 첫 번째 오버레이 내용
 	            imageSrc: 'https://cdn-icons-png.flaticon.com/512/243/243457.png'
 	        },
 	        {
-	            position: new kakao.maps.LatLng(37.5657, 126.9768),  // 두 번째 마커 위치
+	            position: new kakao.maps.LatLng(35.134349, 126.918263),  // 두 번째 마커 위치
 	            content: '<div class="overlay" style="padding:8px 18px 8px 18px;"><p>송암동</p><p>522pt</p></div>',  // 두 번째 오버레이 내용
 	            imageSrc: 'https://cdn-icons-png.flaticon.com/512/243/243457.png'
 	        }
