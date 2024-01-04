@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.AllArgsConstructor;
@@ -48,10 +49,11 @@ public class Tb_User {
     @Column(name = "monthly_attendance")
     private int monthlyAttendance = 0;
 
-    @Column(name = "joined_at", nullable = false)
+    @Column(name = "joined_at", nullable = false, length = 50)
     private String joinedAt;
     
     @OneToMany(mappedBy = "userId")
+    @JsonBackReference
     private List<Tb_Point_History> useNum;
     
     @OneToMany(mappedBy = "userId")
@@ -59,6 +61,8 @@ public class Tb_User {
     private List<Tb_Point_Earn> earnNum;
 
 	public boolean getAttendance;
+	
+	public boolean getQuizParticipation;
     
     @Override
     public String toString() {

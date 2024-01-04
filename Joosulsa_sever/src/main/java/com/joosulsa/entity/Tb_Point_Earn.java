@@ -56,5 +56,9 @@ public class Tb_Point_Earn {
     @JsonBackReference
     private Tb_Attendance attNum;
 	
+    @ManyToOne
+    @JoinColumn(referencedColumnName = "town_num")
+    @JsonBackReference
+    private Tb_Town townNum;
 	
 }

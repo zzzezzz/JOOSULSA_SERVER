@@ -1,5 +1,8 @@
 package com.joosulsa.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,7 +66,7 @@ public class QuizController {
 				
 				user.setQuizParticipation(true);
 	            userRepo.save(user);
-				
+	            
 				// 포인트 기록 생성
 				Tb_Point_Earn pointEarn = new Tb_Point_Earn();
 				pointEarn.setEarnPoint(quiz.getQuizPoint());
@@ -72,8 +75,22 @@ public class QuizController {
 				pointEarn.setQuizNum(quiz);
 				
 				pointEarnRepo.save(pointEarn);
+				boolean userQuizCheck = user.getQuizParticipation;
+				int totalPoints = userRepo.calculateTotalPoints(user.getUserId());
 
-				return "Point added successfully!";
+				// 응답 데이터 설정
+                Map<String, Object> responseData = new HashMap<>();
+                responseData.put("message", "Point added successfully!");
+                responseData.put("totalPoints", totalPoints);
+                responseData.put("userCheck", userQuizCheck);
+                
+                ObjectMapper objectMapper = new ObjectMapper();
+                
+                // JSON 형태로 변환
+                String jsonResponse = objectMapper.writeValueAsString(responseData);
+
+                // JSON 형태의 응답 전송
+                return jsonResponse;
 			} else {
 				return "User or quiz not found!";
 			}
