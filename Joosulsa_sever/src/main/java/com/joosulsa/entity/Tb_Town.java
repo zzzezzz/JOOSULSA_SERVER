@@ -20,19 +20,19 @@ public class Tb_Town {
 	// 동네 번호
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "town_num")
+	@Column(name = "town_num", nullable = false)
 	private Long townNum;
 	
 	// 동네 이름
-	@Column(name = "town_name", length = 500)
+	@Column(name = "town_name", length = 500, nullable = false)
 	private String townName;
 	
 	// 동네 x좌표
-	@Column(name = "town_x", length = 50)
+	@Column(name = "town_x", length = 50, nullable = false)
 	private String townX;
 	
 	// 동네 y좌표
-	@Column(name = "town_y", length = 50)
+	@Column(name = "town_y", length = 50, nullable = false)
 	private String townY;
 	
 	@OneToMany(mappedBy = "townNum")

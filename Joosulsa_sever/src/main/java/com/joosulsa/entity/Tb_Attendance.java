@@ -28,9 +28,6 @@ public class Tb_Attendance {
 	@Column(name = "att_num")
 	private Long attNum;
 
-	@Column(name = "attended_at", nullable = true)
-	private String attendedAt;
-
 	@Column(name = "att_point", nullable = false)
 	private Integer attPoint;
 

@@ -37,7 +37,7 @@ public class Tb_Quiz {
     @Column(name = "quiz_answer", columnDefinition = "TEXT", nullable = false)
     private String quizAnswer;
 
-    @Column(name = "quiz_info", columnDefinition = "TEXT", nullable = true)
+    @Column(name = "quiz_info", columnDefinition = "TEXT", nullable = false)
     private String quizInfo;
     
     @Column(name = "quiz_point", nullable = false)

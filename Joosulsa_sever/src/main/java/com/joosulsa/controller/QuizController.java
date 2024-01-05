@@ -13,9 +13,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.joosulsa.entity.Tb_Point_Earn;
 import com.joosulsa.entity.Tb_Quiz;
+import com.joosulsa.entity.Tb_Town;
 import com.joosulsa.entity.Tb_User;
 import com.joosulsa.repository.PointEarnRepository;
 import com.joosulsa.repository.QuizRepository;
+import com.joosulsa.repository.TownRepository;
 import com.joosulsa.repository.UserRepository;
 
 @RestController
@@ -30,6 +32,9 @@ public class QuizController {
 
 	@Autowired
 	private PointEarnRepository pointEarnRepo;
+	
+	@Autowired
+	private TownRepository townRepo;
 
 	@PostMapping("/quizRequest")
 	public String quizDataCheck(String quizNum) {
@@ -63,7 +68,9 @@ public class QuizController {
 			Tb_Quiz quiz = quizRepo.findByQuizNum(quizNum);
 
 			if (user != null && quiz != null) {
-				
+				// 동네 정보 가져오기
+	            Tb_Town town = findTownByUserAddress(user.getUserAddr());
+	            
 				user.setQuizParticipation(true);
 	            userRepo.save(user);
 	            
@@ -73,6 +80,7 @@ public class QuizController {
 				pointEarn.setEarnedAt(earnTime);
 				pointEarn.setUserId(user);
 				pointEarn.setQuizNum(quiz);
+				pointEarn.setTownNum(town);
 				
 				pointEarnRepo.save(pointEarn);
 				boolean userQuizCheck = user.getQuizParticipation;
@@ -100,5 +108,22 @@ public class QuizController {
 		}
 
 	}
+
+	private Tb_Town findTownByUserAddress(String userAddr) {
+		// 주소에서 동네 정보 추출
+	    String[] addressParts = userAddr.split(" ");
+	    System.out.println(userAddr);
+	    // 동네 정보가 있는지 확인
+	    if (addressParts.length >= 2) {
+	        String townName = addressParts[2]; // 3번째 단어를 동네로 간주
+	        System.out.println(townName);
+	        // 동네 이름으로 Tb_Town을 찾아 반환
+	        return townRepo.findByTownName(townName);
+	    } else {
+	        // 동네 정보가 없으면 null 반환 또는 적절한 로직 추가
+	        return null;
+	    }
+	}
+
 
 }

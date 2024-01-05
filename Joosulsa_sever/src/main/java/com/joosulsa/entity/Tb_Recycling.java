@@ -13,6 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -35,7 +37,7 @@ public class Tb_Recycling {
     @Column(name = "sepa_method", columnDefinition = "TEXT")
     private String sepaMethod;
     
-    @Column(name = "sepa_caution", length = 500)
+    @Column(name = "sepa_caution", columnDefinition = "TEXT")
     private String sepaCaution;
     
     @Column(name = "sepa_img", length = 1000)
@@ -53,9 +55,6 @@ public class Tb_Recycling {
     @Column(name = "recycle_img", length = 1000)
     private String recycleImg;
     
-    @Column(name = "recycle_title", length = 100)
-    private String recycleTitle;
-
     @Column(name = "recycle_point")
     private Integer recyclePoint;
 
@@ -63,6 +62,7 @@ public class Tb_Recycling {
     private String searchMethod;
     
     @OneToMany(mappedBy = "recycleNum")
+    @JsonBackReference
     private List<Tb_Point_Earn> earnNum;
 	
     @Override
