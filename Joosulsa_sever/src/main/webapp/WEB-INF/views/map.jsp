@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+  <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix = "c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -32,24 +33,43 @@
 	<script>
 		var container = document.getElementById('map');
 	    var options = {
-	        center: new kakao.maps.LatLng(37.5665, 126.9780),  // 초기 중심 좌표 설정
+	        center: new kakao.maps.LatLng(35.14049, 126.916429),  // 초기 중심 좌표 설정
 	        level: 3
 	    };
 	    var map = new kakao.maps.Map(container, options);
 	
-	    // 여러 개의 마커 정보 배열
+		
+	    
+	    // 동적으로 뿌려줄 마커 정보 배열 생성
+	    var markers = [];
+	    
+	    
+	 	// townList를 돌면서 마커 정보 추가
+	 	// controller 영역에 작성한 townList을 갖고와 town이라는 이름을 사용해 데이터를 뿌려주는 작업
+	    <c:forEach var="town" items="${townList}">
+	        markers.push({
+	            position: new kakao.maps.LatLng(${town.townX}, ${town.townY}),
+	            content: '<div class="overlay" style="padding:8px 18px 8px 18px;"><p>${town.townName}</p><p></p></div>',
+	            imageSrc: 'https://cdn-icons-png.flaticon.com/512/243/243457.png'
+	        });
+	    </c:forEach>
+	    
+	    
+	    
+	   /*  // 여러 개의 마커 정보 배열
 	    var markers = [
 	        {
 	            position: new kakao.maps.LatLng(35.14049, 126.916429),  // 첫 번째 마커 위치
-	            content: '<div class="overlay" style="padding:8px 18px 8px 18px;"><p>송암동</p><p>513254540pt</p></div>',  // 첫 번째 오버레이 내용
+	            content: '<div class="overlay" style="padding:8px 18px 8px 18px;"><p>${townName}</p><p>${포인트 총합내용}</p></div>',  // 첫 번째 오버레이 내용
 	            imageSrc: 'https://cdn-icons-png.flaticon.com/512/243/243457.png'
 	        },
 	        {
 	            position: new kakao.maps.LatLng(35.134349, 126.918263),  // 두 번째 마커 위치
-	            content: '<div class="overlay" style="padding:8px 18px 8px 18px;"><p>송암동</p><p>522pt</p></div>',  // 두 번째 오버레이 내용
+	            content: '<div class="overlay" style="padding:8px 18px 8px 18px;"><p></p><p>522pt</p></div>',  // 두 번째 오버레이 내용
 	            imageSrc: 'https://cdn-icons-png.flaticon.com/512/243/243457.png'
 	        }
-	    ];
+	    ]; */
+	    
 	
 	    markers.forEach(function(markerInfo) {
 	        // 이미지 마커 설정

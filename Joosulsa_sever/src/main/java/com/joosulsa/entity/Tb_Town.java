@@ -21,6 +21,7 @@ public class Tb_Town {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "town_num")
+	
 	private Long townNum;
 	
 	// 동네 이름
@@ -41,8 +42,20 @@ public class Tb_Town {
     
     @Override
 	public String toString() {
-		return "Tb_Town";
+    	return "Tb_Town{" + "town_num=" + townNum +  "town_name=" + townName +" town_name+ ,town_x=" + townX + ", town_y=" + townY + "earnNum=" + earnNum + "}";
 	}
+    
+    // 포인트 총합 가지고 오기 위해서 설정해주기 
+    private int totalPoints; // 이 부분을 추가
+
+    // Getter와 Setter를 정의합니다.
+    public int getTotalPoints() {
+        return totalPoints;
+    }
+
+    public void setTotalPoints(int totalPoints) {
+        this.totalPoints = totalPoints;
+    }
 	
 	
 	

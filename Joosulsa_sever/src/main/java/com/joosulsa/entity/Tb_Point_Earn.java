@@ -60,4 +60,14 @@ public class Tb_Point_Earn {
     @JsonBackReference
     private Tb_Town townNum;
 	
+    // StackOverflowError 에러 해결
+    @Override
+    public String toString() {
+    	return "Tb_Point_Earn";
+    }
+    
+    
 }
+
+
+
