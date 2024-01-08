@@ -1,6 +1,8 @@
 package com.joosulsa.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -22,8 +24,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.joosulsa.dto.UserRankDTO.UserRankData;
 import com.joosulsa.entity.Tb_User;
 import com.joosulsa.mapper.UserMapper;
+import com.joosulsa.repository.PointEarnRepository;
 import com.joosulsa.repository.UserRepository;
 
 @RestController
@@ -37,6 +41,9 @@ public class UserController {
 
 	@Autowired
 	private UserRepository userRepo;
+	
+	@Autowired
+	private PointEarnRepository earnRepo;
 
 //	// 생성자를 통해 PasswordEncoder 주입
 //	public UserController(PasswordEncoder passwordEncoder) {
@@ -144,6 +151,7 @@ public class UserController {
 				int totalPoints = userRepo.calculateTotalPoints(checkOutput.getUserId());
 				String infoUserId = checkOutput.getUserId();
 				String infoUserNick = checkOutput.getUserNick();
+				int monthlyAtt = checkOutput.getMonthlyAttendance();
 
 				// 응답 데이터 설정
 				Map<String, Object> responseData = new HashMap<>();
@@ -151,6 +159,7 @@ public class UserController {
 				responseData.put("totalPoints", totalPoints);
 				responseData.put("userNick", infoUserNick);
 				responseData.put("userId", infoUserId);
+				responseData.put("monthlyAttendance", monthlyAtt);
 
 				// JSON 형태로 변환
 				String jsonResponse = objectMapper.writeValueAsString(responseData);
@@ -166,7 +175,33 @@ public class UserController {
 		}
 
 	}
+	
+	@PostMapping("/personRank")
+	public List<UserRankData> personRankData() {
+		
+		List<Object[]> personData = earnRepo.findTop10UsersTotalPoints();
+		List<UserRankData> userRankList = new ArrayList<>();
+		
+		ObjectMapper objectMapper = new ObjectMapper();
+		
+		System.out.println("?????????????");
+		
+		for (Object[] data : personData) {
+		    String userNick = (String) data[0];
+		    Long totalPoints = (Long) data[1];
+		    
+		    System.out.println("User Nick: " + userNick + ", Total Points: " + totalPoints);
+		    
+		    UserRankData userRankData = new UserRankData();
+            userRankData.setUserNick(userNick);
+            userRankData.setTotalPoints(totalPoints);
 
+            userRankList.add(userRankData);
+		    
+		}
+		
+		return userRankList;
+	}
 
 
 }

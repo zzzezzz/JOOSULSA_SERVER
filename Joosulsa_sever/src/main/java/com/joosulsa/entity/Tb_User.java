@@ -40,13 +40,13 @@ public class Tb_User {
     @Column(name = "user_nick", length = 30, nullable = false)
     private String userNick;
     
-    @Column(name = "today_att")
+    @Column(name = "today_att", nullable = false)
     private boolean attendance = false;
     
-    @Column(name = "quiz_att")
+    @Column(name = "quiz_att", nullable = false)
     private boolean quizParticipation = false;
     
-    @Column(name = "monthly_attendance")
+    @Column(name = "monthly_attendance", nullable = false)
     private int monthlyAttendance = 0;
 
     @Column(name = "joined_at", nullable = false, length = 50)
@@ -68,5 +68,7 @@ public class Tb_User {
     public String toString() {
     	return "Tb_User";
     }
+    
+    
 	
 }
