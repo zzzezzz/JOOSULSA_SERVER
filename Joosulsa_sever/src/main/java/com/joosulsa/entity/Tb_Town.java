@@ -46,7 +46,7 @@ public class Tb_Town {
 	}
     
     // 포인트 총합 가지고 오기 위해서 설정해주기 
-    private int totalPoints; // 이 부분을 추가
+    private Integer totalPoints; // 이 부분을 추가합니다.
 
     // Getter와 Setter를 정의합니다.
     public int getTotalPoints() {

@@ -46,13 +46,21 @@
 	    
 	 	// townList를 돌면서 마커 정보 추가
 	 	// controller 영역에 작성한 townList을 갖고와 town이라는 이름을 사용해 데이터를 뿌려주는 작업
-	    <c:forEach var="town" items="${townList}">
-	        markers.push({
-	            position: new kakao.maps.LatLng(${town.townX}, ${town.townY}),
-	            content: '<div class="overlay" style="padding:8px 18px 8px 18px;"><p>${town.townName}</p><p></p></div>',
-	            imageSrc: 'https://cdn-icons-png.flaticon.com/512/243/243457.png'
-	        });
-	    </c:forEach>
+	   <c:forEach var="town" items="${townList}">
+		    <!-- 해당 동네의 포인트 값을 가져오기 / townNum은 각 동네 번호-->
+		    /* <c:set var="points" value="${town.townNum}" /> */
+		    
+		    markers.push({
+		        position: new kakao.maps.LatLng(${town.townX}, ${town.townY}),
+		        content: '<div class="overlay" style="padding:8px 18px 8px 18px;">' +
+		                 '<p>${town.townName}</p>' +
+		                 '<p>${townTotalPointsMap[String.valueOf(town.townNum)]} pt</p>' +  
+		                 <!-- 포인트 값을 출력 : townTotalPointsMap에 저장된 키값과 town.townNum을 비교해 같은 값을 가져옴 -->
+		                 <!-- 이때, town.townNum을 형변환 해줘야 같은 값을 가져온다. -->
+		                 '</div>',
+		        imageSrc: 'https://cdn-icons-png.flaticon.com/512/243/243457.png'
+		    });
+		</c:forEach>
 	    
 	    
 	    
@@ -60,7 +68,7 @@
 	    var markers = [
 	        {
 	            position: new kakao.maps.LatLng(35.14049, 126.916429),  // 첫 번째 마커 위치
-	            content: '<div class="overlay" style="padding:8px 18px 8px 18px;"><p>${townName}</p><p>${포인트 총합내용}</p></div>',  // 첫 번째 오버레이 내용
+	            content: '<div class="overlay" style="padding:8px 18px 8px 18px;"><p>${townName}</p><p></p></div>',  // 첫 번째 오버레이 내용
 	            imageSrc: 'https://cdn-icons-png.flaticon.com/512/243/243457.png'
 	        },
 	        {

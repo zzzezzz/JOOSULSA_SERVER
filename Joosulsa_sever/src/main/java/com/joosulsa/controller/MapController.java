@@ -1,5 +1,6 @@
 package com.joosulsa.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,10 +15,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.joosulsa.dto.TownRankDTO.TownRankData;
+import com.joosulsa.dto.UserRankDTO.UserRankData;
 import com.joosulsa.entity.Tb_Town;
 import com.joosulsa.repository.TownRepository;
 
-// 안드로이드 스프링 통신 시 사용하는 어노테이션
 @Controller
 // 영속성 오류 해결 어노테이션
 @Transactional
@@ -52,44 +55,94 @@ public class MapController {
 		//	    model.addAttribute("townName", firstTownName);
 
 		
-		Map<String, Integer> townTotalPointsMap = new HashMap<>(); // townNum과 totalPoints를 매핑할 Map 생성
-
+		Map<String, String> townTotalPointsMap = new HashMap<>(); // townNum과 totalPoints를 매핑할 Map 생성
+		//  int 형으로 보내니 오류가 나서 각 동네 번호에 맞는 포인트 총합이 출력이 안되는 것같아서 String으로 형변환 
+		
 		for (Tb_Town town : townList) {
-		    String townNumStr = town.getTownNum().toString(); // townNum을 문자열로 변환
-		    System.out.println("데이터 넘어오는지 확인: " + townNumStr);
-		 // townNumStr이 null이거나 빈 문자열일 경우 처리
-		    if (townNumStr == null || townNumStr.isEmpty()) {
-		        System.out.println("townNumStr 값이 null이거나 빈 문자열입니다. townNumStr: " + townNumStr);
+		    Long townNum = town.getTownNum(); // townNum을 문자열로 변환
+		    
+		    // 동네 번호가 null일때 처리 로직
+		    if (townNum == null) {
+		    	System.out.println("townNumStr 값이 null이거나 빈 문자열입니다. townNumStr: " + townNum);
 		        continue; // 현재 반복을 건너뜁니다.
 		    }
 
-		    System.out.println("데이터 넘어오는지 확인: " + townNumStr);
 		    
-		    // townNumStr을 인자로 사용하여 totalPoints 조회
+		    // townNum을 인자로 사용하여 totalPoints 조회
 		    try {
-		        Integer totalPoints = townRepo.calculateTotalPointsByTownNum(townNumStr);
-		        System.out.println("총합포인트가 넘어오는지 확인: " + totalPoints);
+		    	// sql에서 동네 번호를 기준으로 집계함수 sum을 사용했을 시 동네에 해당하는 점수가 없어 합산해줄 수 있는 값이 없을 경우 오류 발생
+		    	// -> int totalPoints 에서 int가 null을 받을 수 없기 때문에 생기는 문제
+		    	// -> 그래서 sql 메소드 처리시 sum으로 집계했을때 값이 null 일 경우 포인트 총합을 0으로 처리해주는 로직이 필요
+		    	
+		    	int totalPoints; // totalPoints 변수를 먼저 선언
+
+		        
+		        
+		    	// townRepo에서 calculateTotalPointsByTownNum를 String 값으로 가져온다.
+		    	// 이 처리를 해주는 이유는 null은 int로 받을 수 없기 때문에 쿼리문에서 String으로 지정 
+		        if (townRepo.calculateTotalPointsByTownNum(townNum) == null) {
+		        	// townRepo.calculateTotalPointsByTownNum(townNum)가 null이면 totalPoints에 0을 할당
+		        	// townRepo.calculateTotalPointsByTownNum(townNum)가 String이기 때문에 null이 됨
+		            totalPoints = 0;
+		        } else {
+		        	// null이 아니면 해당 값을 할당
+		        	// 
+		            totalPoints = Integer.parseInt(townRepo.calculateTotalPointsByTownNum(townNum));
+		            System.out.println( "총 포인트: "+ totalPoints);
+		        }
+		        
+		        // townNum을 문자열로 변환하여 townTotalPointsMap에 포인트 총합을 저장
+		        townTotalPointsMap.put(String.valueOf(townNum), String.valueOf(totalPoints)); 
+		        // Map에 키값과 value값이 각각 String으로 지정되어 있어서 String으로 변환해줌
+		        
+		        System.out.println("각 동네별 포인트 총합 : "+ townTotalPointsMap);
+	            
 		    } catch (Exception e) {
 		        // 예외 처리: 쿼리 호출 시 문제가 발생한 경우
 		        System.out.println("총합포인트 조회 중 오류 발생: " + e.getMessage());
 		        e.printStackTrace(); // 에러 로그 출력
-		        // 추가적인 예외 처리 로직을 여기에 작성할 수 있습니다.
 		    }
 		}
 		
-
 		
-		
-		
-		model.addAttribute("townList", townList); // townList라는 이름으로 jsp에 보냄 
+		model.addAttribute("townList", townList); // townList라는 이름으로 jsp에 보냄
 		model.addAttribute("townTotalPointsMap", townTotalPointsMap);  // townNum과 totalPoints 매핑 정보를 JSP로 보냄
 		
-       
-		
-		
+		System.out.println(townList);
+		System.out.println(townTotalPointsMap);
 		
 		return "map";
 	}
+	
+	@PostMapping("/townList")
+	public List<TownRankData> townRankData() {
+		
+		List<Object[]> townData = townRepo.findSumOfEarnPointGroupByTownName();
+		List<TownRankData> townDataList = new ArrayList<>();
+		// Java 객체를 JSON 문자열로 변환하거나 반대로 JSON 문자열을 Java 객체로 변환하는 데 사용
+		ObjectMapper objectMapper = new ObjectMapper();
+		
+		System.out.println("?????????????");
+		
+		for (Object[] data : townData) {
+		    String townName = (String) data[0];
+		    System.out.println("값이 오냐고"+townName);
+//		    Long totalPoints = (Long)data[1];
+//		    String totalPointsAsString = String.valueOf(totalPoints);
+//		    System.out.println("값이 넘어오나?"+ totalPoints);
+//		    System.out.println("동네이름 " + townName + ", 동네 총 포인트: " + totalPoints);
+//		    
+//		    TownRankData townRankData = new TownRankData();
+//		    townRankData.setTownName(townName);
+//		    townRankData.setTotalPoints(totalPoints);
+//
+//            townDataList.add(townRankData);
+		    
+		}
+		
+		return townDataList;
+	}
+
 	
 	
 }
