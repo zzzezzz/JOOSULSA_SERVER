@@ -35,7 +35,7 @@
 	
 		var container = document.getElementById('map');
 	    var options = {
-	        center: new kakao.maps.LatLng(35.14049, 126.916429),  // 초기 중심 좌표 설정
+	        center: new kakao.maps.LatLng(35.1098, 126.8835),  // 초기 중심 좌표 설정
 	        level: 3
 	    };
 	    var map = new kakao.maps.Map(container, options);
