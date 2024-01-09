@@ -14,6 +14,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -62,7 +63,7 @@ public class Tb_Recycling {
     private String searchMethod;
     
     @OneToMany(mappedBy = "recycleNum")
-    @JsonBackReference
+    @JsonManagedReference
     private List<Tb_Point_Earn> earnNum;
 	
     @Override

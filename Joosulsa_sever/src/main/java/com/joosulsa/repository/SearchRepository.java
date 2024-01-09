@@ -1,8 +1,11 @@
 package com.joosulsa.repository;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -22,5 +25,8 @@ public interface SearchRepository extends JpaRepository<Tb_Recycling, String>{
 
 	public Tb_Recycling findByRecycleNum(long longNum);
 
+	public Tb_Recycling findByRecycleNumAndSearchMethod(Long photoNum, String method);
+
+	
 	
 }

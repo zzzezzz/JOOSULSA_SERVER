@@ -125,18 +125,65 @@ public class UserController {
 		Tb_User dataCheck = userRepo.findByUserId(userId);
 
 		if (dataCheck != null) {
-			ObjectMapper objectMapper = new ObjectMapper();
-			try {
-				String jsonCheck = objectMapper.writeValueAsString(dataCheck);
-				return jsonCheck;
-			} catch (JsonProcessingException e) {
-				e.printStackTrace();
-				return "JSON 변환 실패: " + e.getMessage();
+			
+			Integer totalPoints = userRepo.calculateTotalPoints(dataCheck.getUserId());
+			Map<String, Object> responseData = new HashMap<>();
+			if(totalPoints!= null) {
+				responseData.put("totalPoints", totalPoints);
+			}else {
+				responseData.put("totalPoints", 0);
 			}
+			
+			int monthlyAttendance = dataCheck.getMonthlyAttendance();
+			boolean attendance = dataCheck.getAttendance;
+			boolean quizParticipation = dataCheck.getQuizParticipation;
+			
+            
+            responseData.put("quizBoolean", quizParticipation);
+            responseData.put("checkBoolean", attendance);
+            responseData.put("monthlyAttendance", monthlyAttendance);
+            
+            ObjectMapper objectMapper = new ObjectMapper();
+            
+            // JSON 형태로 변환
+            String jsonCheck;
+			try {
+				jsonCheck = objectMapper.writeValueAsString(responseData);
+				
+				 // JSON 형태의 응답 전송
+	            return jsonCheck;
+			} catch (JsonProcessingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return "뭔가 잘못됨";
+			}
+
+           
 		} else {
 			return "로그인 실패";
 		}
 
+	}
+	
+	
+	@PostMapping("/makeFalse")
+	public void makeFalse(String userId) {
+		Tb_User makeFalse = userRepo.findByUserId(userId);
+		
+		if(makeFalse!= null) {
+			makeFalse.setAttendance(false);
+			userRepo.save(makeFalse);
+		}
+	}
+	
+	@PostMapping("/makeTrue")
+	public void makeTrue(String userId) {
+		Tb_User makeTrue = userRepo.findByUserId(userId);
+		
+		if(makeTrue!= null) {
+			makeTrue.setAttendance(true);
+			userRepo.save(makeTrue);
+		}
 	}
 
 	// 출석체크 페이지 출석 현황 뿌리기
