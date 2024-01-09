@@ -31,6 +31,8 @@
 	
 	<!-- 카카오맵 지도 api 설정 -->
 	<script>
+		
+	
 		var container = document.getElementById('map');
 	    var options = {
 	        center: new kakao.maps.LatLng(35.14049, 126.916429),  // 초기 중심 좌표 설정
