@@ -27,10 +27,12 @@ import com.joosulsa.dto.RecycleDTO.cateData;
 import com.joosulsa.dto.UserRankDTO.UserRankData;
 import com.joosulsa.entity.Tb_Point_Earn;
 import com.joosulsa.entity.Tb_Recycling;
+import com.joosulsa.entity.Tb_Town;
 import com.joosulsa.entity.Tb_User;
 import com.joosulsa.mapper.SearchMapper;
 import com.joosulsa.repository.PointEarnRepository;
 import com.joosulsa.repository.SearchRepository;
+import com.joosulsa.repository.TownRepository;
 import com.joosulsa.repository.UserRepository;
 
 @RestController
@@ -48,33 +50,36 @@ public class SearchController {
 
 	@Autowired
 	private PointEarnRepository pointEarnRepo;
+	
+	@Autowired
+	private TownRepository townRepo;
 
 	// 검색기능
 	@PostMapping("/search")
 	public String searchDate(String search, String method, String user, String earnTime) {
-		System.out.println("?");
-		System.out.println(method);
+		System.out.println("===============================================================================================");
+		System.out.println(search);
 		Tb_Recycling searchCheck = searchRepo.findByTrashNameAndSearchMethod(search, method);
 
 		if (searchCheck != null) {
-			System.out.println("??");
+			System.out.println("1111===============================================================================================");
 			int viewNum = searchCheck.getRecycleViews();
 			viewNum += 1;
-			System.out.println(searchCheck.getRecycleViews());
 			searchCheck.setRecycleViews(viewNum);
 			searchRepo.save(searchCheck);
-			System.out.println(searchCheck.getRecycleViews());
-
+			
 			Tb_User userEntity = userRepo.findByUserId(user);
 			if (userEntity != null) {
+				System.out.println("2222===============================================================================================");
+				Tb_Town town = findTownByUserAddress(userEntity.getUserAddr()); // 유저 주소에 해당하는 타운넘버 가져옴
 				int pointsToAdd = searchCheck.getRecyclePoint(); // Tb_Recycling에서 가져온 포인트 지급량
-				System.out.println("???");
 				// Tb_Point_Earn에 데이터 추가
 				Tb_Point_Earn pointEarn = new Tb_Point_Earn();
 				pointEarn.setUserId(userEntity);
 				pointEarn.setEarnPoint(pointsToAdd);
 				pointEarn.setRecycleNum(searchCheck);
 				pointEarn.setEarnedAt(earnTime);
+				pointEarn.setTownNum(town);
 				pointEarnRepo.save(pointEarn);
 			}
 			int totalPoints = userRepo.calculateTotalPoints(user);
@@ -84,8 +89,10 @@ public class SearchController {
 			ObjectMapper objectMapper = new ObjectMapper();
 			System.out.println("????");
 			try {
+				System.out.println("333333===============================================================================================");
 				String Data = objectMapper.writeValueAsString(responseData);
 				System.out.println("?????");
+				System.out.println(Data);
 				return Data;
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -97,6 +104,24 @@ public class SearchController {
 	}
 //	@PostMapping("/searchImg")
 //	public String searchImg(Sting )
+
+	private Tb_Town findTownByUserAddress(String userAddr) {
+		
+		// 유저 주소 파싱해서 동네 정보 추출
+	    String[] addressParts = userAddr.split(" ");
+	    System.out.println(userAddr);
+	    // 동네 정보가 있는지 확인
+	    if (addressParts.length >= 2) {
+	        String townName = addressParts[2]; // 3번째 단어를 동네로 간주
+	        System.out.println(townName);
+	        // 동네 이름으로 Tb_Town을 찾아 반환
+	        return townRepo.findByTownName(townName);
+	    } else {
+	        // 동네 정보가 없으면 null 반환 또는 적절한 로직 추가
+	        return null;
+	    }
+		
+	}
 
 	@PostMapping("/category")
 	public List<cateData> categoryName() {
@@ -140,14 +165,15 @@ public class SearchController {
 
 			Tb_User userEntity = userRepo.findByUserId(userId);
 			if (userEntity != null) {
+				Tb_Town town = findTownByUserAddress(userEntity.getUserAddr()); // 유저 주소에 해당하는 타운넘버 가져옴
 				int pointsToAdd = recyData.getRecyclePoint(); // Tb_Recycling에서 가져온 포인트 지급량
-				System.out.println("???");
 				// Tb_Point_Earn에 데이터 추가
 				Tb_Point_Earn pointEarn = new Tb_Point_Earn();
 				pointEarn.setUserId(userEntity);
 				pointEarn.setEarnPoint(pointsToAdd);
 				pointEarn.setRecycleNum(recyData);
 				pointEarn.setEarnedAt(earnTime);
+				pointEarn.setTownNum(town);
 				pointEarnRepo.save(pointEarn);
 			}
 			int totalPoints = userRepo.calculateTotalPoints(userId);
