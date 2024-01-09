@@ -20,19 +20,20 @@ public class Tb_Town {
 	// 동네 번호
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "town_num", nullable = false)
+	@Column(name = "town_num")
+	
 	private Long townNum;
 	
 	// 동네 이름
-	@Column(name = "town_name", length = 500, nullable = false)
+	@Column(name = "town_name", length = 500)
 	private String townName;
 	
 	// 동네 x좌표
-	@Column(name = "town_x", length = 50, nullable = false)
+	@Column(name = "town_x", length = 50)
 	private String townX;
 	
 	// 동네 y좌표
-	@Column(name = "town_y", length = 50, nullable = false)
+	@Column(name = "town_y", length = 50)
 	private String townY;
 	
 	@OneToMany(mappedBy = "townNum")
@@ -41,8 +42,20 @@ public class Tb_Town {
     
     @Override
 	public String toString() {
-		return "Tb_Town";
+    	return "Tb_Town{" + "town_num=" + townNum +  "town_name=" + townName +" town_name+ ,town_x=" + townX + ", town_y=" + townY + "earnNum=" + earnNum + "}";
 	}
+    
+    // 포인트 총합 가지고 오기 위해서 설정해주기 
+    private Integer totalPoints; // 이 부분을 추가합니다.
+
+    // Getter와 Setter를 정의합니다.
+    public int getTotalPoints() {
+        return totalPoints;
+    }
+
+    public void setTotalPoints(int totalPoints) {
+        this.totalPoints = totalPoints;
+    }
 	
 	
 	
