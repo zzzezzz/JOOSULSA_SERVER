@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -44,7 +45,7 @@ public class Tb_Product {
 	@Column(name = "prod_img", columnDefinition = "TEXT", nullable = false)
 	private String prodImg;
 	
-	@OneToMany(mappedBy = "prodNum")
+	@OneToMany(mappedBy = "prodNum", fetch = FetchType.EAGER)
 	@JsonManagedReference
 	private List<Tb_Point_History> histNum;
 	
