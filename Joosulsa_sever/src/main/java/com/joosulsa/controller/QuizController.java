@@ -60,17 +60,17 @@ public class QuizController {
 	public String quizPointRequest(String correctQuizNum, String correctUserId, String earnTime) {
 
 		long quizNum = Long.parseLong(correctQuizNum);
-		
+		System.out.println("여긴가?"+correctUserId);
 		try {
 			// 사용자 정보 가져오기
 			Tb_User user = userRepo.findById(correctUserId).orElse(null);
 			// 퀴즈 정보 가져오기
 			Tb_Quiz quiz = quizRepo.findByQuizNum(quizNum);
-
+			System.out.println("그럼 여긴가?"+user);
 			if (user != null && quiz != null) {
 				// 동네 정보 가져오기
 	            Tb_Town town = findTownByUserAddress(user.getUserAddr());
-	            
+	            System.out.println("아니면 여긴가?"+town);
 				user.setQuizParticipation(true);
 	            userRepo.save(user);
 	            
@@ -81,7 +81,7 @@ public class QuizController {
 				pointEarn.setUserId(user);
 				pointEarn.setQuizNum(quiz);
 				pointEarn.setTownNum(town);
-				
+				System.out.println(pointEarn);
 				pointEarnRepo.save(pointEarn);
 				boolean userQuizCheck = user.getQuizParticipation;
 				int totalPoints = userRepo.calculateTotalPoints(user.getUserId());
