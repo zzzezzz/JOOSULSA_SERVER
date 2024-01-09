@@ -53,7 +53,7 @@ public class Tb_User {
     private String joinedAt;
     
     @OneToMany(mappedBy = "userId")
-    @JsonBackReference
+    @JsonManagedReference
     private List<Tb_Point_History> useNum;
     
     @OneToMany(mappedBy = "userId")

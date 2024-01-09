@@ -14,6 +14,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -40,11 +41,11 @@ public class Tb_Product {
 	@Column(name = "prod_info", columnDefinition = "TEXT", nullable = false)
 	private String prodInfo;
 
-	@Column(name = "prod_img", length = 1000, nullable = false)
+	@Column(name = "prod_img", columnDefinition = "TEXT", nullable = false)
 	private String prodImg;
 	
 	@OneToMany(mappedBy = "prodNum")
-	@JsonBackReference
+	@JsonManagedReference
 	private List<Tb_Point_History> histNum;
 	
 	@Override
