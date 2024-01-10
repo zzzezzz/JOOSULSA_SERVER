@@ -133,7 +133,7 @@ public class UserController {
 			}else {
 				responseData.put("totalPoints", 0);
 			}
-			
+			System.out.println(totalPoints + "============================================================================");
 			int monthlyAttendance = dataCheck.getMonthlyAttendance();
 			boolean attendance = dataCheck.getAttendance;
 			boolean quizParticipation = dataCheck.getQuizParticipation;
