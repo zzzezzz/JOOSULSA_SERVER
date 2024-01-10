@@ -167,6 +167,7 @@ public class SearchController {
 			if (userEntity != null) {
 				Tb_Town town = findTownByUserAddress(userEntity.getUserAddr()); // 유저 주소에 해당하는 타운넘버 가져옴
 				int pointsToAdd = recyData.getRecyclePoint(); // Tb_Recycling에서 가져온 포인트 지급량
+				System.out.println(pointsToAdd + "=======================================================================================");
 				// Tb_Point_Earn에 데이터 추가
 				Tb_Point_Earn pointEarn = new Tb_Point_Earn();
 				pointEarn.setUserId(userEntity);
@@ -245,6 +246,72 @@ public class SearchController {
 	    } catch (NumberFormatException e) {
 	        return "Invalid recycleNum format";
 	    }
+	}
+	
+	@PostMapping("/cateRecySend")
+	public String cateRecySend(String clickedTitle, String method) {
+		
+		Tb_Recycling cateRecySend = searchRepo.findByTrashNameAndSearchMethod(clickedTitle, method);
+		
+		if(cateRecySend!=null) {
+			int viewNum = cateRecySend.getRecycleViews();
+			viewNum += 1;
+			cateRecySend.setRecycleViews(viewNum);
+			searchRepo.save(cateRecySend);
+			
+			ObjectMapper objectMapper = new ObjectMapper();
+			String jsonCheck;
+			try {
+				jsonCheck = objectMapper.writeValueAsString(cateRecySend);
+				return jsonCheck;
+			} catch (JsonProcessingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return "여기가 문제2";
+			}
+			
+		}
+		
+		return "???";
+	}
+	
+	// 인기검색어 보내주기
+	@PostMapping("/popData")
+	public String popData() {
+        // trash_name으로 그룹화하여 recycle_views를 합친 결과를 가져오기
+        List<Object[]> result = searchRepo.sumRecycleViewsByTrashName();
+        
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            String jsonResult = objectMapper.writeValueAsString(result);
+            return jsonResult;
+        } catch (JsonProcessingException e) {
+            // 변환 중 오류가 발생한 경우 예외 처리
+            e.printStackTrace();
+            return "Error during JSON conversion";
+        }
+        
+    }
+	
+	@PostMapping("/popRecy")
+	public String popRecy(String data, String method) {
+		
+		Tb_Recycling popRecy = searchRepo.findByTrashNameAndSearchMethod(data, method);
+		System.out.println(popRecy + "===================================================================");
+		if(popRecy!=null) {
+			ObjectMapper objectMapper = new ObjectMapper();
+			try {
+				String popRecyData = objectMapper.writeValueAsString(popRecy);
+				System.out.println(popRecyData + "============================================================================================");
+				return popRecyData;
+			} catch (JsonProcessingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		
+		return "뭐임";
 	}
 
 

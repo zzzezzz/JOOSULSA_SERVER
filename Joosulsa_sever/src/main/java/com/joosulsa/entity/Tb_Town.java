@@ -44,18 +44,7 @@ public class Tb_Town {
 	public String toString() {
     	return "Tb_Town{" + "town_num=" + townNum +  "town_name=" + townName +" town_name+ ,town_x=" + townX + ", town_y=" + townY + "earnNum=" + earnNum + "}";
 	}
-    
-    // 포인트 총합 가지고 오기 위해서 설정해주기 
-    private Integer totalPoints; // 이 부분을 추가합니다.
-
-    // Getter와 Setter를 정의합니다.
-    public int getTotalPoints() {
-        return totalPoints;
-    }
-
-    public void setTotalPoints(int totalPoints) {
-        this.totalPoints = totalPoints;
-    }
+   
 	
 	
 	
