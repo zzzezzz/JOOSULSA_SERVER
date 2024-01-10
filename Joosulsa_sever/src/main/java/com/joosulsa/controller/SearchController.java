@@ -102,8 +102,6 @@ public class SearchController {
 	public List<cateData> categoryName() {
 
 		List<String> cateList = searchRepo.findTrashNames();
-		List<Tb_Recycling> result = searchRepo.findAll();
-		
 
 		List<cateData> cateNameList = new ArrayList<>();
 
