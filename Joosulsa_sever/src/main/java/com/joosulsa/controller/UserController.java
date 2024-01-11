@@ -250,6 +250,23 @@ public class UserController {
 		return userRankList;
 	}
 	
-	
+	@PostMapping("/userRankPrint")
+	public String userRankPrint(String userId) {
+		
+		Tb_User user = userRepo.findByUserId(userId);
+		
+		if(user != null) {
+			System.out.println("랭킹용 id 잘 나오나?" + user.getUserId());
+			int rank = earnRepo.findUserRankByTotalPoints(user.getUserId()) + 1;
+			String stringRank = String.valueOf(rank);
+
+            // 직접 JSON 문자열로 응답 생성
+            return "{\"rank\": \"" + stringRank + "\"}";
+			
+		}
+		return "userRankPrint 안된다아=======================================================================";
+		
+	}
+
 
 }
