@@ -33,6 +33,7 @@ public class PointHistroryController {
 	
 	@PostMapping("/purchaseProduct")
 	public String purchaseProduct(String use_point, String used_at, String user_id_user_id, String prod_name) {
+		System.out.println("check : "+use_point+used_at+user_id_user_id+prod_name);
 		Tb_Point_History pointHistory = new Tb_Point_History();
 		
 		Tb_Product searchNum = shopRepo.findByProdName(prod_name);
