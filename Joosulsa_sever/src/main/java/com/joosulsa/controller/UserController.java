@@ -256,10 +256,10 @@ public class UserController {
 		Tb_User user = userRepo.findByUserId(userId);
 		
 		if(user != null) {
-			
+			System.out.println("랭킹용 id 잘 나오나?" + user.getUserId());
 			int rank = earnRepo.findUserRankByTotalPoints(user.getUserId());
 			String stringRank = String.valueOf(rank);
-			System.out.println(stringRank);
+			System.out.println(stringRank + "==========================================================================");
 			
 			ObjectMapper objectMapper = new ObjectMapper();
 			String jsonCheck;
