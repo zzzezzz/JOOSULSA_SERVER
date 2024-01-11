@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -63,7 +64,7 @@ public class Tb_Recycling {
     @Column(name = "search_method", length = 20)
     private String searchMethod;
     
-    @OneToMany(mappedBy = "recycleNum")
+    @OneToMany(mappedBy = "recycleNum", fetch = FetchType.EAGER)
     @JsonManagedReference
     private List<Tb_Point_Earn> earnNum;
 	

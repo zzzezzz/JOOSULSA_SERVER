@@ -48,7 +48,7 @@ public class Tb_Point_Earn {
     
     @ManyToOne
     @JoinColumn(referencedColumnName = "recycle_num")
-    @JsonManagedReference
+    @JsonBackReference
     private Tb_Recycling recycleNum;
     
     @ManyToOne
