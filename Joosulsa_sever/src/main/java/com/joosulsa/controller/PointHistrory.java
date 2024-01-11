@@ -15,7 +15,6 @@ public class PointHistrory {
 	@Autowired
 	private PointHistroryRepository poRepo;
 	
-	// 
 	
 	
 }
