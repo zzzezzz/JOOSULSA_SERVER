@@ -13,5 +13,5 @@ public interface ShopRepository extends JpaRepository<Tb_Product, String>{
 	
 
 	
-	
+	Tb_Product findByProdName(String prodName);
 }

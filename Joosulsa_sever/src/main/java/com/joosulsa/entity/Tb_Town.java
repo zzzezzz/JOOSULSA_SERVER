@@ -44,7 +44,8 @@ public class Tb_Town {
 	public String toString() {
     	return "Tb_Town{" + "town_num=" + townNum +  "town_name=" + townName +" town_name+ ,town_x=" + townX + ", town_y=" + townY + "earnNum=" + earnNum + "}";
 	}
-   
+    
+    
 	
 	
 	
