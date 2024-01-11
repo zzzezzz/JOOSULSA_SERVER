@@ -249,6 +249,33 @@ public class UserController {
 		
 		return userRankList;
 	}
+	
+	@PostMapping("/userRankPrint")
+	public String userRankPrint(String userId) {
+		
+		Tb_User user = userRepo.findByUserId(userId);
+		
+		if(user != null) {
+			
+			int rank = earnRepo.findUserRankByTotalPoints(user.getUserId());
+			String stringRank = String.valueOf(rank);
+			System.out.println(stringRank);
+			
+			ObjectMapper objectMapper = new ObjectMapper();
+			String jsonCheck;
+			try {
+				jsonCheck = objectMapper.writeValueAsString(stringRank);
+				return jsonCheck;
+			} catch (JsonProcessingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return "여기가 문제2";
+			}
+			
+		}
+		return "userRankPrint 안된다아=======================================================================";
+		
+	}
 
 
 }

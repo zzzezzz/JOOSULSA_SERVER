@@ -31,4 +31,6 @@ public interface SearchRepository extends JpaRepository<Tb_Recycling, String> {
 			+ "GROUP BY r.trashName " + "ORDER BY totalRecycleViews DESC")
 	List<Object[]> sumRecycleViewsByTrashName();
 
+	public List<Tb_Recycling> findBySearchMethod(String method);
+
 }
