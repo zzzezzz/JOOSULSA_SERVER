@@ -18,6 +18,7 @@ public interface SearchRepository extends JpaRepository<Tb_Recycling, String> {
 	// 이름 기준으로 가져오겠다.
 	public Tb_Recycling findByTrashName(String search);
 
+	// SearchMethod로 묶어주는 이유 : 비회원이 검색시 포인트 적립처리 안하게 하려고…
 	public Tb_Recycling findByTrashNameAndSearchMethod(String search, String method);
 
 	@Query("SELECT trashName FROM Tb_Recycling")
