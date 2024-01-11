@@ -23,7 +23,7 @@ import com.joosulsa.dto.UserRankDTO.UserRankData;
 import com.joosulsa.entity.Tb_Town;
 import com.joosulsa.repository.TownRepository;
 
-@RestController
+@Controller
 @Transactional // 영속성 오류 해결 어노테이션
 public class MapController {
 
