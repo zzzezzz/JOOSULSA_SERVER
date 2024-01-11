@@ -257,20 +257,11 @@ public class UserController {
 		
 		if(user != null) {
 			System.out.println("랭킹용 id 잘 나오나?" + user.getUserId());
-			int rank = earnRepo.findUserRankByTotalPoints(user.getUserId());
+			int rank = earnRepo.findUserRankByTotalPoints(user.getUserId()) + 1;
 			String stringRank = String.valueOf(rank);
-			System.out.println(stringRank + "==========================================================================");
-			
-			ObjectMapper objectMapper = new ObjectMapper();
-			String jsonCheck;
-			try {
-				jsonCheck = objectMapper.writeValueAsString(stringRank);
-				return jsonCheck;
-			} catch (JsonProcessingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				return "여기가 문제2";
-			}
+
+            // 직접 JSON 문자열로 응답 생성
+            return "{\"rank\": \"" + stringRank + "\"}";
 			
 		}
 		return "userRankPrint 안된다아=======================================================================";
