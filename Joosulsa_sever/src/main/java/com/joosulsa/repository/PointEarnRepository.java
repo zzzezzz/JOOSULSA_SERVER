@@ -16,9 +16,9 @@ public interface PointEarnRepository extends JpaRepository<Tb_Point_Earn, String
 			+ "GROUP BY pe.userId.userId " + "ORDER BY totalPoints DESC ")
 	List<Object[]> findTop10UsersTotalPoints();
 
-	@Query("SELECT COUNT(*) + 1 " + "FROM Tb_Point_Earn pe " + "WHERE pe.userId.userId = :userId "
-			+ "AND pe.earnPoint > (SELECT SUM(pe2.earnPoint) " + "FROM Tb_Point_Earn pe2 "
-			+ "GROUP BY pe2.userId.userId " + "HAVING pe2.userId.userId = :userId) ")
+	@Query("SELECT COUNT(distinct pe.userId) FROM Tb_Point_Earn pe WHERE "
+			+ "(SELECT SUM(pe2.earnPoint) FROM Tb_Point_Earn pe2 WHERE pe2.userId = pe.userId) > "
+			+ "(SELECT SUM(pe3.earnPoint) FROM Tb_Point_Earn pe3 WHERE pe3.userId.userId = :userId)")
 	Integer findUserRankByTotalPoints(@Param("userId") String userId);
 
 }

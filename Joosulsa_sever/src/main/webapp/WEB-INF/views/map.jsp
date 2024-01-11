@@ -27,7 +27,7 @@
 <body>
 	<!-- 지도를 표시할 div -->
 	<div id="map" style="width:100vw;height:100vh;"></div>
-	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b2de374f674db8f269b65de46015cd0d"></script>
+	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=287f1061532413fe3d8f7b97211f4903"></script>
 	
 	<!-- 카카오맵 지도 api 설정 -->
 	<script>

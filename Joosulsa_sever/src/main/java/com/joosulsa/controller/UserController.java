@@ -135,8 +135,8 @@ public class UserController {
 			}
 			
 			int monthlyAttendance = dataCheck.getMonthlyAttendance();
-			boolean attendance = dataCheck.getAttendance;
-			boolean quizParticipation = dataCheck.getQuizParticipation;
+			boolean attendance = dataCheck.isAttendance();
+			boolean quizParticipation = dataCheck.isQuizParticipation();
 			
             
             responseData.put("quizBoolean", quizParticipation);
