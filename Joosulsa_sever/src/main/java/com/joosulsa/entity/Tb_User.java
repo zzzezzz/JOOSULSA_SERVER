@@ -40,11 +40,11 @@ public class Tb_User {
     @Column(name = "user_nick", length = 30, nullable = false)
     private String userNick;
     
-    @Column(name = "today_att", nullable = false)
-    private boolean attendance = false;
+    @Column(name = "today_att", nullable = false, columnDefinition = "boolean default false")
+    private boolean attendance;
     
-    @Column(name = "quiz_att", nullable = false)
-    private boolean quizParticipation = false;
+    @Column(name = "quiz_att", nullable = false, columnDefinition = "boolean default false")
+    private boolean quizParticipation;
     
     @Column(name = "monthly_attendance", nullable = false)
     private int monthlyAttendance = 0;
@@ -59,10 +59,6 @@ public class Tb_User {
     @OneToMany(mappedBy = "userId")
     @JsonManagedReference
     private List<Tb_Point_Earn> earnNum;
-
-	public boolean getAttendance;
-	
-	public boolean getQuizParticipation;
     
     @Override
     public String toString() {

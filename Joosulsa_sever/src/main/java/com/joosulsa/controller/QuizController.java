@@ -83,7 +83,7 @@ public class QuizController {
 				pointEarn.setTownNum(town);
 				System.out.println(pointEarn);
 				pointEarnRepo.save(pointEarn);
-				boolean userQuizCheck = user.getQuizParticipation;
+				boolean userQuizCheck = user.isQuizParticipation();
 				int totalPoints = userRepo.calculateTotalPoints(user.getUserId());
 
 				// 응답 데이터 설정

@@ -66,7 +66,7 @@ public class CheckController {
 				pointEarn.setTownNum(town);
 				
 				pointEarnRepo.save(pointEarn);
-				boolean userCheck = user.getAttendance;
+				boolean userCheck = user.isAttendance();
 				int totalPoints = userRepo.calculateTotalPoints(user.getUserId());
 
                 // 응답 데이터 설정

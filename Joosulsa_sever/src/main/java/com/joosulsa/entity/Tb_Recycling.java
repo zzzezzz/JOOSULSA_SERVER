@@ -64,7 +64,7 @@ public class Tb_Recycling {
     @Column(name = "search_method", length = 20)
     private String searchMethod;
     
-    @OneToMany(mappedBy = "recycleNum", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "recycleNum" , fetch = FetchType.EAGER)
     @JsonManagedReference
     private List<Tb_Point_Earn> earnNum;
 	
