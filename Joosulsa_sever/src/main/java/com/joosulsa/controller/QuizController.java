@@ -16,6 +16,7 @@ import com.joosulsa.entity.Tb_Quiz;
 import com.joosulsa.entity.Tb_Town;
 import com.joosulsa.entity.Tb_User;
 import com.joosulsa.repository.PointEarnRepository;
+import com.joosulsa.repository.PointHistroryRepository;
 import com.joosulsa.repository.QuizRepository;
 import com.joosulsa.repository.TownRepository;
 import com.joosulsa.repository.UserRepository;
@@ -35,6 +36,9 @@ public class QuizController {
 	
 	@Autowired
 	private TownRepository townRepo;
+	
+	@Autowired
+	private PointHistroryRepository hisRepo;
 
 	@PostMapping("/quizRequest")
 	public String quizDataCheck(String quizNum) {
@@ -84,12 +88,20 @@ public class QuizController {
 				System.out.println(pointEarn);
 				pointEarnRepo.save(pointEarn);
 				boolean userQuizCheck = user.isQuizParticipation();
-				int totalPoints = userRepo.calculateTotalPoints(user.getUserId());
+				Integer totalEarn = userRepo.calculateTotalPoints(user.getUserId());
+				Integer totalUse = hisRepo.usePoint(user.getUserId());
+				Map<String, Object> responseData = new HashMap<>();
+				if(totalEarn!= null && totalUse != null) {
+					Integer totalPoints = totalEarn - totalUse;
+					responseData.put("totalPoints", totalPoints);
+				}else if (totalEarn!=null && totalUse == null) {
+					responseData.put("totalPoints", totalEarn);
+				} else {
+					responseData.put("totalPoints", 0);
+				}
 
 				// 응답 데이터 설정
-                Map<String, Object> responseData = new HashMap<>();
                 responseData.put("message", "Point added successfully!");
-                responseData.put("totalPoints", totalPoints);
                 responseData.put("userCheck", userQuizCheck);
                 
                 ObjectMapper objectMapper = new ObjectMapper();

@@ -34,6 +34,7 @@ import com.joosulsa.entity.Tb_Town;
 import com.joosulsa.entity.Tb_User;
 import com.joosulsa.mapper.SearchMapper;
 import com.joosulsa.repository.PointEarnRepository;
+import com.joosulsa.repository.PointHistroryRepository;
 import com.joosulsa.repository.SearchRepository;
 import com.joosulsa.repository.TownRepository;
 import com.joosulsa.repository.UserRepository;
@@ -56,6 +57,9 @@ public class SearchController {
 
 	@Autowired
 	private TownRepository townRepo;
+	
+	@Autowired
+	private PointHistroryRepository hisRepo;
 
 	// 검색기능
 	@PostMapping("/search")
@@ -88,10 +92,18 @@ public class SearchController {
 				pointEarn.setTownNum(town);
 				pointEarnRepo.save(pointEarn);
 			}
-			int totalPoints = userRepo.calculateTotalPoints(user);
 			Map<String, Object> responseData = new HashMap<>();
+			Integer totalEarn = userRepo.calculateTotalPoints(userEntity.getUserId());
+			Integer totalUse = hisRepo.usePoint(userEntity.getUserId());
+			if(totalEarn!= null && totalUse != null) {
+				Integer totalPoints = totalEarn - totalUse;
+				responseData.put("totalPoints", totalPoints);
+			}else if (totalEarn!=null && totalUse == null) {
+				responseData.put("totalPoints", totalEarn);
+			} else {
+				responseData.put("totalPoints", 0);
+			}
 			responseData.put("searchCheck", searchCheck);
-			responseData.put("totalPoints", totalPoints);
 			ObjectMapper objectMapper = new ObjectMapper();
 			System.out.println("????");
 			try {
@@ -185,10 +197,18 @@ public class SearchController {
 				pointEarn.setTownNum(town);
 				pointEarnRepo.save(pointEarn);
 			}
-			int totalPoints = userRepo.calculateTotalPoints(userId);
 			Map<String, Object> responseData = new HashMap<>();
+			Integer totalEarn = userRepo.calculateTotalPoints(userEntity.getUserId());
+			Integer totalUse = hisRepo.usePoint(userEntity.getUserId());
+			if(totalEarn!= null && totalUse != null) {
+				Integer totalPoints = totalEarn - totalUse;
+				responseData.put("totalPoints", totalPoints);
+			}else if (totalEarn!=null && totalUse == null) {
+				responseData.put("totalPoints", totalEarn);
+			} else {
+				responseData.put("totalPoints", 0);
+			}
 			responseData.put("recyData", recyData);
-			responseData.put("totalPoints", totalPoints);
 			ObjectMapper objectMapper = new ObjectMapper();
 			System.out.println("????");
 			try {
