@@ -28,6 +28,7 @@ import com.joosulsa.dto.UserRankDTO.UserRankData;
 import com.joosulsa.entity.Tb_User;
 import com.joosulsa.mapper.UserMapper;
 import com.joosulsa.repository.PointEarnRepository;
+import com.joosulsa.repository.PointHistroryRepository;
 import com.joosulsa.repository.UserRepository;
 
 @RestController
@@ -44,6 +45,9 @@ public class UserController {
 	
 	@Autowired
 	private PointEarnRepository earnRepo;
+	
+	@Autowired
+	private PointHistroryRepository hisRepo;
 
 //	// 생성자를 통해 PasswordEncoder 주입
 //	public UserController(PasswordEncoder passwordEncoder) {
@@ -90,13 +94,15 @@ public class UserController {
 
 	// 로그인
 	@PostMapping("/login")
-	public String login(@RequestParam String userId, @RequestParam String userPw) {
+	public String login(String userId, String userPw) {
+		System.out.println("로그인 정보 확인해보자" + userId + userPw + "======================================");
 		Tb_User loginCheck = userRepo.findByUserIdAndUserPw(userId, userPw);
 
 		if (loginCheck != null) {
 			ObjectMapper objectMapper = new ObjectMapper();
 			try {
 				String jsonCheck = objectMapper.writeValueAsString(loginCheck);
+				System.out.println(jsonCheck + "?????????????????로그인로그인로그인로그인로그인");
 				return jsonCheck;
 			} catch (JsonProcessingException e) {
 				e.printStackTrace();
@@ -126,13 +132,18 @@ public class UserController {
 
 		if (dataCheck != null) {
 			
-			Integer totalPoints = userRepo.calculateTotalPoints(dataCheck.getUserId());
+			Integer totalEarn = userRepo.calculateTotalPoints(dataCheck.getUserId());
+			Integer totalUse = hisRepo.usePoint(dataCheck.getUserId());
 			Map<String, Object> responseData = new HashMap<>();
-			if(totalPoints!= null) {
+			if(totalEarn!= null && totalUse != null) {
+				Integer totalPoints = totalEarn - totalUse;
 				responseData.put("totalPoints", totalPoints);
-			}else {
+			}else if (totalEarn!=null && totalUse == null) {
+				responseData.put("totalPoints", totalEarn);
+			} else {
 				responseData.put("totalPoints", 0);
 			}
+			System.out.println(responseData + "이거확인이거확인이거확인이거확인이거확인이거확인이거확인이거확인이거확인이거확인이거확인이거확인이거확인이거확인이거확인이거확인이거확인");
 			
 			int monthlyAttendance = dataCheck.getMonthlyAttendance();
 			boolean attendance = dataCheck.isAttendance();
