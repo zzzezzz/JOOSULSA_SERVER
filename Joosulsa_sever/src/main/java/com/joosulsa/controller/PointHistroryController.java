@@ -47,7 +47,7 @@ public class PointHistroryController {
 		poRepo.save(pointHistory);
 		
 		int earnPoint = userRepo.calculateTotalPoints(user_id_user_id);
-		int usePoint = poRepo.usePoint(user_id_user_id);
+		Integer usePoint = poRepo.usePoint(user_id_user_id);
 		
 		String totalPoint = String.valueOf(earnPoint - usePoint);
 		
