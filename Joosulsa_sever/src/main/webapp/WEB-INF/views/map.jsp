@@ -60,7 +60,7 @@
 		                 <!-- 포인트 값을 출력 : townTotalPointsMap에 저장된 키값과 town.townNum을 비교해 같은 값을 가져옴 -->
 		                 <!-- 이때, town.townNum을 형변환 해줘야 같은 값을 가져온다. -->
 		                 '</div>',
-		        imageSrc: 'https://cdn-icons-png.flaticon.com/512/243/243457.png'
+		        imageSrc: 'images/flaticon.png'
 		    });
 		</c:forEach>
 	    
